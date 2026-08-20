@@ -45,12 +45,31 @@ They enter through the topology, independent of the subject:
 | --- | --- | --- |
 | Human boundary condition | always | who accepts, rejects, or alters; the universe does not create authority |
 | Integrator | ≥2 lenses | one lens needs no integration |
-| Adversary | 1 per orthogonal harm domain | see below |
+| Adversary | 1 seat per declared harm owner | see below |
 
-### One adversary per orthogonal harm domain
+### One adversary seat per declared harm owner
 
-Orthogonal = **disjoint evidence AND a distinct owner**. Domains that
-overlap are the same harm seen from two angles and get a single adversary.
+Orthogonal = **disjoint evidence AND a distinct owner** — and orthogonal
+domains must never share a seat. The earlier formulation merged domains by
+the exact complement of orthogonality (same owner OR shared evidence),
+closed transitively for order-invariance (finding S-01). The cross-model
+article review (2026-08-20, finding R-04, reproduced) showed that this
+closure over-merges: the complement of orthogonality is not transitive, so a
+bridge domain could pull two orthogonal domains into one component,
+silently deleting one owner's seat — and even the direct cross-owner
+overlap merge already deleted an owner.
+
+The rule now in force: **domains merge only when they share the same
+owner**. Owner equality is an equivalence relation — transitive by itself —
+so the closure adds nothing beyond it. Three properties hold by
+construction: the partition is order-invariant (S-01 preserved); two
+members of a seat always share an owner, so orthogonal domains never share
+a seat; and every named owner keeps exactly one seat, with the union of
+their declared evidence and the strongest power they declared. Overlapping
+evidence across distinct owners no longer merges — it is recorded in the
+derivation log (`authority_boundary_preserved`), because two harmed owners
+are two parties even when they read the same source. Authority does not
+merge through evidence.
 
 This is not invention: real systems arrive at this by hand. A product
 derived from a licensed work and aimed at a vulnerable user has two harms

@@ -29,17 +29,27 @@ separate from the metaphorical/visual layer.
    separable evidence subspaces plus the roles the topology requires. Two
    lenses observing the same declared evidence are the same lens; a lens with
    no evidence and no tool of its own is an echo of the briefing. One
-   adversary per orthogonal harm domain (disjoint evidence **and** a distinct
-   owner), with declared power: `advisory`, `veto` or `escalation` — `veto`
-   requires a non-empty `owner` **and** the structured assertion
-   `owner_named: true` from the manifest author; without it the adversary
-   enters `requirements_unsatisfied` (A-01/N-07: an auditable assertion, not
-   lexical inference; P4 — attribution, not authentication). Declared limits
-   of the rule (Codex Sol review, 2026-08-19): equality of declared evidence
-   does not imply equality of question, tool, loss function or authority; and
-   a chain of overlaps can merge lenses whose endpoints are separable. The
-   derived cast is a **candidate**, reviewable for corpus blind spots, cost,
-   authority and harm. Respect `SINGLE_LENS` and `NO_UNIVERSE` — refusing is
+   adversary **seat per declared harm owner** (cycle 10, finding R-04 of the
+   cross-model article review): domains of the same owner share one seat,
+   carrying the union of their evidence and the strongest power the owner
+   declared; **distinct owners never merge** — overlapping evidence across
+   owners is logged (`authority_boundary_preserved`), not merged, because
+   authority does not merge through evidence. This preserves, by
+   construction, order-invariance (S-01), the guarantee that orthogonal
+   domains (disjoint evidence **and** distinct owner) never share a seat,
+   and that no named owner ever disappears from the cast. Power is declared:
+   `advisory`, `veto` or `escalation` — `veto` requires a non-empty `owner`
+   **and** the structured assertion `owner_named: true` from the manifest
+   author; without it the adversary enters `requirements_unsatisfied`
+   (A-01/N-07: an auditable assertion, not lexical inference; P4 —
+   attribution, not authentication). Declared limits of the rule (Codex Sol
+   review, 2026-08-19; article review, 2026-08-20): equality of declared
+   evidence does not imply equality of question, tool, loss function or
+   authority; and a chain of overlaps can merge lenses whose endpoints are
+   separable — when that happens the derivation now emits a
+   `chain_merge_warning` and the verdict labels itself a candidate (R-03).
+   The derived cast is always a **candidate**, reviewable for corpus blind
+   spots, cost, authority and harm. Respect `SINGLE_LENS` and `NO_UNIVERSE` — refusing is
    the most valuable function of this step. Without a corpus, accept
    `structure_derived_provisional`, label everything as hypothesis and do not
    invent a separation number. Re-run whenever any lens's sources change.

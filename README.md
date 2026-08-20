@@ -5,7 +5,8 @@
 Auditable universe compiler for LLMs, with cast derivation via evidence
 topology.
 
-> **Version:** `1.0.0-rc.1` — first public release; nothing was published
+> **Version:** `1.0.0-rc.2` — release candidate line of the first public
+> release; nothing was published
 > before it. Internal lineage names (v3/v4) appear only in the preserved
 > audit trail — see [VERSIONING.md](VERSIONING.md).
 >
@@ -17,7 +18,12 @@ topology.
 > two cross-model audits and one isolated cross-model adversarial gate whose
 > free attack failed a candidate the full nominal battery had approved (see
 > [docs/audits/README.md](docs/audits/README.md)); every finding was
-> reproduced, fixed, and re-tested (70 unit tests, byte-level rebuild gate).
+> reproduced, fixed, and re-tested (79 unit tests, byte-level rebuild gate).
+> A fourth cross-model engagement (2026-08-20) adversarially reviewed the
+> project's preprint, produced two executable counterexamples against this
+> code (R-03, R-04) and the verdict *do not submit*; R-04 (an adversary
+> merge that could silently delete an orthogonal harm owner) was fixed in
+> cycle 10 — adversary seats now follow declared harm owners.
 > The `-rc` drops only upon explicit human acceptance, still pending —
 > together with a sealed holdout and human visual review. Claims are narrow
 > by design: no superiority, no generalization, no external human audit of
@@ -124,13 +130,14 @@ docs/
 
 | Surface | Current evidence |
 | --- | --- |
-| Compiler | 70 unit tests, including metamorphic cast tests and re-derived adversarial probes from every audit finding; byte-level bundle rebuild gate |
+| Compiler | 79 unit tests, including metamorphic cast tests and re-derived adversarial probes from every audit finding; byte-level bundle rebuild gate |
 | Conformance | 9 cases; 3 holdouts; 9/9 conformant |
 | Cast derivation | 4 synthetic cases; 2 holdouts; 4/4 conformant (order-invariant: single partition across input permutations) |
 | Evaluation (ACCEPTANCE v1.2) | deterministic oracle with mandatory content-addressed scorer report; measured against the **hash-pinned executable predecessor**: 0/3 vs 3/3 on the authored cases — capability presence, not superiority; `evaluated_inconclusive` until the sealed holdout runs |
 | Cross-model audit #1 (2026-07-29) | **rejected for promotion**; findings S-01…S-09, all reproduced and fixed ([report](docs/audits/v4-audit-codex-sol.md)) |
 | Cross-model review #2 (2026-08-19) | material progress, utility demonstrated in one field episode, **do not promote**; findings N-01…N-04, all reproduced and fixed |
 | Isolated cross-model gate (2026-08-20) | nominal battery fully PASS, **free attack failed the candidate** (N-05…N-08), all reproduced and fixed — see [docs/audits/README.md](docs/audits/README.md) |
+| Cross-model article review #4 (2026-08-20) | **do not submit** (the preprint, rev. 2); findings R-01…R-13 with two executable counterexamples against this code, both reproduced; **R-04 fixed in cycle 10** (adversary seats follow owners; orthogonal owners can no longer vanish), R-03's declared limit now warns mechanically |
 | Field use | one real deployment; one real multi-agent round where the universe's gate rejected a defective recommendation and forced repair; one external session where round admission correctly refused redundant work |
 | Generalization | Not demonstrated |
 | Human acceptance | Recorded mechanically (`record_acceptance.py`); promotion still requires explicit human acceptance — pending |

@@ -117,7 +117,7 @@ def normalize_evidence_text(value: str) -> str:
 
 EVIDENCE_ROOT = Path(".")
 
-COMPILER_VERSION = "corda-compiler/1.0.0-rc.1"
+COMPILER_VERSION = "corda-compiler/1.0.0-rc.2"
 
 
 def compiler_stamp() -> dict[str, Any]:

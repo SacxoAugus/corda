@@ -26,7 +26,7 @@ python3 scripts/verify_repo.py
 
 The command runs: structural validation of the skill; the cast-derivation
 benchmark; the compiler conformance benchmark; the full unit-test suite
-(70 tests at v1.0.0-rc.1, including re-derived adversarial probes from every
+(79 tests at v1.0.0-rc.2, including re-derived adversarial probes from every
 audit finding); a scan for private couplings and absolute paths; and — when a
 development universe is present — a byte-level bundle rebuild gate (reported
 as `SKIP` in this public cut, whose development journal is private).

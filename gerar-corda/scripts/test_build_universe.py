@@ -848,29 +848,46 @@ class TestCastDerivationClosure(unittest.TestCase):
         # a~c e b~c fundem {a,b,c} mesmo sem relação direta a~b
         self.assertEqual(self.survivors(self.SOL_CASE), ["c"])
 
-    def test_adversary_orthogonality_is_exact_complement(self) -> None:
+    def test_adversary_seats_follow_owners(self) -> None:
+        # Doutrina revista no ciclo 10 (parecer #4, R-04). A versão anterior
+        # deste teste — "fusão = complemento exato da ortogonalidade" (S-01) —
+        # esperava 1 assento para donos distintos com evidência sobreposta.
+        # Essa expectativa codificava o defeito R-04 em miniatura: fundir
+        # através de donos apaga um dono do elenco (o representante herda o
+        # assento; o outro dono desaparece). Regra vigente: um assento por
+        # dono; evidência sobreposta entre donos distintos preserva os dois
+        # assentos e apenas registra `authority_boundary_preserved` no log.
         cases = [
             (
                 [{"id": "h1", "owner": "x", "evidence": ["a"]},
                  {"id": "h2", "owner": "x", "evidence": ["b"]}],
-                1,  # mesmo dono => não ortogonal
+                1,  # mesmo dono => um assento (portfólio do dono)
             ),
             (
                 [{"id": "h1", "owner": "x", "evidence": ["a"]},
                  {"id": "h2", "owner": "y", "evidence": ["a"]}],
-                1,  # evidência sobreposta => não ortogonal
+                2,  # donos distintos NUNCA fundem (R-04), mesmo com evidência comum
             ),
             (
                 [{"id": "h1", "owner": "x", "evidence": ["a"]},
                  {"id": "h2", "owner": "y", "evidence": ["b"]}],
-                2,  # disjunta E dono distinto => ortogonal
+                2,  # ortogonal => dois assentos (inalterado)
             ),
         ]
         for harm_domains, expected in cases:
-            kept, _ = derive_cast.derive_adversaries(
+            kept, log = derive_cast.derive_adversaries(
                 json.loads(json.dumps(harm_domains))
             )
             self.assertEqual(len(kept), expected, harm_domains)
+        # o caso de donos distintos com evidência comum deixa rastro auditável
+        kept, log = derive_cast.derive_adversaries([
+            {"id": "h1", "owner": "x", "evidence": ["a"]},
+            {"id": "h2", "owner": "y", "evidence": ["a"]},
+        ])
+        self.assertTrue(
+            any(e.get("action") == "authority_boundary_preserved" for e in log)
+        )
+        self.assertEqual(sorted(a.get("owner") for a in kept), ["x", "y"])
 
     def test_merged_component_inherits_strongest_power(self) -> None:
         kept, log = derive_cast.derive_adversaries([

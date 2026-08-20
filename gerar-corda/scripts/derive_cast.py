@@ -4,9 +4,12 @@
 Etapa aditiva, executada ANTES do compilador. Não substitui build_universe.py:
 emite o contrato de elenco e o esqueleto de manifesto que ele consome.
 
-Lei central: o número de agentes não se escolhe. É o número de subespaços de
+Regra operacional (heurística com limites declarados, não lei): o número de
+agentes não se escolhe — deriva-se como candidato. É o número de subespaços de
 evidência separáveis, mais os papéis exigidos pela topologia. Duas lentes com a
 mesma evidência são a mesma lente. Lente sem evidência própria é eco do briefing.
+Adversários: um assento por DONO de dano declarado (ciclo 10, R-04 — donos
+distintos nunca fundem). O elenco derivado é candidato, sujeito a revisão humana.
 
 Uso:
     python3 derive_cast.py --brief assunto.json --out-dir saida/ [--basename nome]
@@ -223,6 +226,30 @@ def merge_concerns(
                 "verdict": verdict,
                 "reason": why,
             })
+        # Limite declarado, agora com aviso mecânico (ciclo 10, parecer #4,
+        # R-03): o fechamento pode fundir, via uma lente ponte, extremos que
+        # são mutuamente separáveis. Quando isso acontece, o elenco derivado
+        # é explicitamente CANDIDATO — a fusão não é silenciosa.
+        if not provisional:
+            for pos, left in enumerate(members):
+                for right in members[pos + 1:]:
+                    verdict_lr, _ = relation(candidates[left], candidates[right])
+                    if verdict_lr == "separable":
+                        log.append({
+                            "action": "chain_merge_warning",
+                            "concerns": sorted([
+                                str(candidates[left].get("id")),
+                                str(candidates[right].get("id")),
+                            ]),
+                            "into": representative.get("id"),
+                            "reason": (
+                                "limite declarado: a cadeia de fusão uniu "
+                                "extremos mutuamente separáveis através de "
+                                "uma ponte. O elenco derivado é candidato — "
+                                "revisão humana recomendada antes de aceitar "
+                                "o número."
+                            ),
+                        })
         survivors.append(representative)
 
     survivors.sort(key=lambda concern: str(concern.get("id")))
@@ -234,18 +261,34 @@ def merge_concerns(
 
 
 def derive_adversaries(harm_domains: list[dict[str, Any]]) -> tuple[list[dict], list[dict]]:
-    """Um adversário por domínio de dano ortogonal.
+    """Um assento de adversário por DONO de dano declarado.
 
-    Ortogonal = evidência disjunta E dono distinto. Domínios que se sobrepõem
-    são o mesmo dano visto de dois ângulos e recebem um único adversário.
+    Revisão do ciclo 10 (parecer #4, achado R-04 — reproduzido em
+    docs/audits/artigo-rev2-critica-REPRODUCAO-integrador.md). A regra
+    anterior fundia pelo COMPLEMENTO da ortogonalidade (mesmo dono OU
+    evidência sobreposta), fechado por componentes conexos (correção S-01,
+    auditoria #1). O complemento da ortogonalidade não é transitivo: uma
+    cadeia de pontes podia colocar dois domínios ORTOGONAIS (evidência
+    disjunta E dono distinto) no mesmo componente — e a fusão direta entre
+    donos distintos com evidência sobreposta já apagava um dono do elenco
+    mesmo sem cadeia. Autoridade não se funde por evidência: dois donos
+    feridos são duas partes, ainda que olhem a mesma fonte.
+
+    Regra vigente: fusão SOMENTE entre domínios do MESMO dono. Igualdade de
+    dono é relação de equivalência — transitiva por si, então o fechamento
+    não alcança nada além dela. Propriedades por construção:
+
+      (i)   invariância à ordem (preserva S-01): a partição são as classes
+            de equivalência de dono, independente de permutação da entrada;
+      (ii)  pares ortogonais nunca compartilham assento: dois membros de um
+            componente têm o mesmo dono, logo nunca são ortogonais;
+      (iii) nenhum dono declarado desaparece: cada dono nomeado retém
+            exatamente um assento, com a união da sua evidência e o poder
+            mais forte que declarou (veto > escalonamento > parecer).
+
+    Evidência sobreposta entre donos distintos deixa de fundir e é apenas
+    registrada no log (`authority_boundary_preserved`), para auditoria.
     """
-    # Correção S-01 (auditoria Codex Sol): a implementação agora é o COMPLEMENTO
-    # exato da condição declarada. Ortogonal = evidência disjunta E dono
-    # distinto; logo dois domínios se fundem quando compartilham dono OU
-    # compartilham evidência. Fechamento por componentes conexos, invariante à
-    # ordem; representante = maior evidência (empate → menor id); poder do
-    # componente = o mais forte declarado entre os membros (veto >
-    # escalonamento > parecer).
     log: list[dict[str, Any]] = []
     entries: list[dict[str, Any]] = []
     for domain in harm_domains:
@@ -265,34 +308,47 @@ def derive_adversaries(harm_domains: list[dict[str, Any]]) -> tuple[list[dict], 
         entries.append(entry)
 
     count = len(entries)
-    parent = list(range(count))
 
-    def find(index: int) -> int:
-        while parent[index] != index:
-            parent[index] = parent[parent[index]]
-            index = parent[index]
-        return index
+    def owner_key(index: int) -> str:
+        return str(entries[index].get("owner", "")).strip()
 
-    def union(left: int, right: int) -> None:
-        root_left, root_right = find(left), find(right)
-        if root_left != root_right:
-            parent[max(root_left, root_right)] = min(root_left, root_right)
-
+    # visibilidade da fronteira preservada: donos distintos olhando a mesma
+    # evidência NÃO fundem (era a regra antiga; é o defeito R-04). Registrar.
     for i in range(count):
         for j in range(i + 1, count):
-            same_owner = (
-                str(entries[i].get("owner", "")).strip()
-                == str(entries[j].get("owner", "")).strip()
-            )
-            overlap = as_set(entries[i].get("evidence")) & as_set(
-                entries[j].get("evidence")
-            )
-            if same_owner or overlap:
-                union(i, j)
+            if owner_key(i) != owner_key(j):
+                overlap = as_set(entries[i].get("evidence")) & as_set(
+                    entries[j].get("evidence")
+                )
+                if overlap:
+                    log.append({
+                        "action": "authority_boundary_preserved",
+                        "domains": sorted([
+                            str(entries[i].get("id")),
+                            str(entries[j].get("id")),
+                        ]),
+                        "reason": (
+                            "evidência sobreposta entre donos distintos não "
+                            "funde assentos (ciclo 10, R-04): dois donos "
+                            "feridos são duas partes, ainda que olhem a "
+                            "mesma fonte."
+                        ),
+                    })
 
-    components: dict[int, list[int]] = {}
+    components: dict[str, list[int]] = {}
     for index in range(count):
-        components.setdefault(find(index), []).append(index)
+        components.setdefault(owner_key(index), []).append(index)
+    for key, members in components.items():
+        if key == "" and len(members) > 1:
+            log.append({
+                "action": "unnamed_owner_shared_seat",
+                "domains": sorted(str(entries[idx].get("id")) for idx in members),
+                "reason": (
+                    "domínios sem dono nomeado compartilham um assento "
+                    "provisório; nomear o dono é pré-condição de veto "
+                    "(preflight `veto_owner`)."
+                ),
+            })
 
     power_rank = {"parecer": 0, "escalonamento": 1, "veto": 2}
     kept: list[dict[str, Any]] = []
@@ -323,20 +379,23 @@ def derive_adversaries(harm_domains: list[dict[str, Any]]) -> tuple[list[dict], 
             })
             representative["power"] = strongest
         merged_evidence: set[str] = set()
+        merged_ids: list[str] = []
         for index in members:
             merged_evidence |= as_set(entries[index].get("evidence"))
             if index != representative_index:
+                merged_ids.append(str(entries[index].get("id")))
                 log.append({
                     "action": "merge_harm_domain",
                     "domain": entries[index].get("id"),
                     "into": representative.get("id"),
                     "reason": (
-                        "não ortogonal ao componente: compartilha dono ou "
-                        "evidência (ortogonal exige evidência disjunta E dono "
-                        "distinto)"
+                        "mesmo dono: ângulos do portfólio de dano de um único "
+                        "dono compartilham o assento (ciclo 10, R-04 — donos "
+                        "distintos nunca fundem)"
                     ),
                 })
         representative["evidence"] = sorted(merged_evidence)
+        representative["merged_from"] = sorted(merged_ids)
         kept.append(representative)
 
     kept.sort(key=lambda domain: str(domain.get("id")))
@@ -477,7 +536,8 @@ def derive(brief: dict[str, Any]) -> dict[str, Any]:
         "requirement": "adversary",
         "status": "present" if adversaries else "missing",
         "reason": (
-            f"{len(adversaries)} domínio(s) de dano ortogonal(is)" if adversaries
+            f"{len(adversaries)} assento(s) de adversário — um por dono de dano declarado"
+            if adversaries
             else "nenhum domínio de dano declarado: o universo não tem como falhar por escrito"
         ),
     })
@@ -491,7 +551,17 @@ def derive(brief: dict[str, Any]) -> dict[str, Any]:
         ),
     })
 
-    # veredito
+    # veredito — sempre um CANDIDATO derivado, nunca um número autoevidente
+    # (parecer #4, R-03: a fusão em cadeia é limite declarado da heurística).
+    chain_warnings = [
+        entry for entry in log if entry.get("action") == "chain_merge_warning"
+    ]
+    candidate_note = (
+        " ATENÇÃO: a fusão em cadeia uniu extremos mutuamente separáveis "
+        "(limite declarado — `chain_merge_warning` no log de derivação); "
+        "revise antes de aceitar este veredito."
+        if chain_warnings else ""
+    )
     if not lenses:
         verdict = "NO_UNIVERSE"
         rationale = (
@@ -502,13 +572,16 @@ def derive(brief: dict[str, Any]) -> dict[str, Any]:
         verdict = "SINGLE_LENS"
         rationale = (
             "uma lente separável. Um universo com um só modo não integra nem "
-            "confronta nada: responda direto, ou traga evidência que separe outra lente."
+            "confronta nada: responda direto, ou traga evidência que separe "
+            "outra lente." + candidate_note
         )
     else:
         verdict = "DERIVE_CAST"
         rationale = (
             f"{len(lenses)} subespaço(s) de evidência separável(is) + "
-            f"{len(adversaries)} adversário(s) por dano ortogonal"
+            f"{len(adversaries)} assento(s) de adversário (um por dono de "
+            f"dano); elenco candidato, sujeito a revisão humana."
+            + candidate_note
         )
 
     unsatisfied = [r for r in requirements if r["status"] == "missing"]
@@ -578,6 +651,19 @@ def render_markdown(cast: dict[str, Any]) -> str:
     if cast.get("derivation_caveat"):
         lines += [f"> {cast['derivation_caveat']}", ""]
 
+    warnings = [
+        entry for entry in cast["derivation_log"]
+        if entry.get("action") == "chain_merge_warning"
+    ]
+    if warnings:
+        lines += ["> **AVISO — fusão em cadeia (limite declarado).** Extremos"
+                  " mutuamente separáveis foram unidos por uma ponte; o elenco"
+                  " abaixo é candidato e pede revisão humana:", ""]
+        for entry in warnings:
+            pair = ", ".join(f"`{c}`" for c in entry.get("concerns", []))
+            lines.append(f"> - {pair} → `{entry.get('into')}`")
+        lines.append("")
+
     lines += ["## Lentes", "", "| Lente | Separação | Corda do resíduo | Razão |",
               "| --- | ---: | --- | --- |"]
     for lens in cast["lenses"]:
@@ -600,9 +686,14 @@ def render_markdown(cast: dict[str, Any]) -> str:
         lines.append("**Nenhum.** O universo não declarou como pode causar dano.")
 
     if cast["derivation_log"]:
-        lines += ["", "## O que a derivação removeu", ""]
+        lines += ["", "## Log de derivação", ""]
         for entry in cast["derivation_log"]:
-            target = entry.get("concern") or entry.get("domain")
+            target = (
+                entry.get("concern")
+                or entry.get("domain")
+                or ", ".join(entry.get("concerns", []) or entry.get("domains", []))
+                or "—"
+            )
             into = f" → `{entry['into']}`" if entry.get("into") else ""
             lines.append(f"- `{entry['action']}` `{target}`{into} — {entry['reason']}")
 

@@ -37,6 +37,9 @@ What this means, honestly:
 - `docs/audits/v4-parecer-pos-campo-codex-sol.md`: `24bb12aa61c35d81` → `62a15edf07ca138d`
 - `docs/audits/SOLICITACAO-gate-isolado-v4-ciclo-07-codex-sol.md`: `ecdf918eb5a7bf1c` → `f9fd98123b8ebc5d`
 - `docs/audits/v4-gate-isolado-ciclo-07-codex-sol.md`: `6386776d3b90284b` → `fb804d083770be27`
+- `docs/audits/SOLICITACAO-critica-artigo-rev2-codex-sol.md`: `6c388dc3c1f0851e` → `21910179416d3e04`
+- `docs/audits/artigo-rev2-critica-codex-sol.md`: `97b0951c635abe52` → `87be00e19f150778`
+- `docs/audits/artigo-rev2-critica-REPRODUCAO-integrador.md`: `890307397c8e3818` → `06dfcfb812b804cd`
 
 ## Excluded from the public cut (declared)
 

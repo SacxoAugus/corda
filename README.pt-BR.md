@@ -5,7 +5,8 @@
 Compilador de universos auditáveis para LLMs, com derivação de elenco por
 topologia de evidência.
 
-> **Versão:** `1.0.0-rc.1` — primeiro lançamento público; nada foi publicado
+> **Versão:** `1.0.0-rc.2` — linha de release candidate do primeiro
+> lançamento público; nada foi publicado
 > antes dele. Os nomes de linhagem interna (v3/v4) aparecem apenas na trilha
 > de auditoria preservada — ver [VERSIONING.md](VERSIONING.md).
 >
@@ -15,8 +16,13 @@ topologia de evidência.
 > Sobreviveu a duas auditorias cross-model e a um gate adversarial isolado
 > cuja seção de ataque livre reprovou uma candidata que a bateria nominal
 > completa aprovava (ver [docs/audits/README.md](docs/audits/README.md));
-> cada achado foi reproduzido, corrigido e re-testado (70 testes, gate de
-> rebuild byte a byte). O `-rc` só cai com o aceite humano explícito, ainda
+> cada achado foi reproduzido, corrigido e re-testado (79 testes, gate de
+> rebuild byte a byte). Um quarto engajamento cross-model (2026-08-20)
+> criticou adversarialmente o preprint do projeto, produziu dois
+> contraexemplos executáveis contra este código (R-03, R-04) e o veredito
+> *não submeter*; o R-04 (fusão de adversários que podia apagar em
+> silêncio um dono de dano ortogonal) foi corrigido no ciclo 10 — assentos
+> de adversário agora seguem os donos de dano declarados. O `-rc` só cai com o aceite humano explícito, ainda
 > pendente — junto com o holdout selado e a revisão visual humana. Os claims
 > são estreitos por desenho: sem superioridade, sem generalização, sem
 > auditoria humana externa das extensões.
@@ -122,13 +128,14 @@ docs/
 
 | Superfície | Evidência atual |
 | --- | --- |
-| Compilador | 70 testes unitários, incluindo testes metamórficos de elenco e sondas adversariais re-derivadas de cada achado de auditoria; gate de rebuild do bundle byte a byte |
+| Compilador | 79 testes unitários, incluindo testes metamórficos de elenco e sondas adversariais re-derivadas de cada achado de auditoria; gate de rebuild do bundle byte a byte |
 | Conformidade | 9 casos; 3 holdouts; 9/9 conformes |
 | Derivação de elenco | 4 casos sintéticos; 2 holdouts; 4/4 conformes (invariante à ordem: partição única sob permutações da entrada) |
 | Avaliação (ACCEPTANCE v1.2) | oráculo determinístico com relatório do scorer endereçado por conteúdo, obrigatório; medida contra o **predecessor executável pinado por hash**: 0/3 vs 3/3 nos casos autorais — presença de capacidade, não superioridade; `evaluated_inconclusive` até o holdout selado rodar |
 | Auditoria cross-model nº 1 (2026-07-29) | **reprovada para promoção**; achados S-01…S-09, todos reproduzidos e corrigidos ([relatório](docs/audits/v4-audit-codex-sol.md)) |
 | Parecer cross-model nº 2 (2026-08-19) | progresso material, utilidade demonstrada em um episódio de campo, **não promover**; achados N-01…N-04, todos reproduzidos e corrigidos |
 | Gate cross-model isolado (2026-08-20) | bateria nominal integralmente PASS, **o ataque livre reprovou a candidata** (N-05…N-08), todos reproduzidos e corrigidos — ver [docs/audits/README.md](docs/audits/README.md) |
+| Crítica cross-model do artigo nº 4 (2026-08-20) | **não submeter** (o preprint, rev. 2); achados R-01…R-13 com dois contraexemplos executáveis contra este código, ambos reproduzidos; **R-04 corrigido no ciclo 10** (assentos de adversário seguem donos; donos ortogonais não desaparecem mais), o limite declarado do R-03 agora avisa mecanicamente |
 | Uso em campo | uma implantação real; uma rodada multi-agente real em que o gate do próprio universo rejeitou uma recomendação defeituosa e forçou o reparo; uma sessão externa em que a admissão de rodada recusou corretamente trabalho redundante |
 | Generalização | Não demonstrada |
 | Aceitação humana | Registrada mecanicamente (`record_acceptance.py`); a promoção continua exigindo aceite humano explícito — pendente |
