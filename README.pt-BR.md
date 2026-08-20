@@ -78,23 +78,28 @@ Para operar o universo em uma LLM, carregue primeiro
 `build/runtime-demo/demo-BOOTSTRAP.md` e preserve
 `build/runtime-demo/demo-STATE.json` como checkpoint.
 
-## Instalar como skill do Codex
+## Instalar como skill (Claude Code, apps do Claude, Codex, qualquer runner)
+
+A pasta `gerar-corda/` é uma skill autocontida: `SKILL.md` é o contrato,
+`references/` o método, `scripts/` Python puro sem dependência de fornecedor.
+Instale onde o seu agente rodar:
 
 ```bash
-CODEX_SKILLS_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
-mkdir -p "$CODEX_SKILLS_DIR"
-cp -R gerar-corda "$CODEX_SKILLS_DIR/gerar-corda"
+# Claude Code — por projeto             # Claude Code — por usuário
+cp -R gerar-corda .claude/skills/       cp -R gerar-corda ~/.claude/skills/
+
+# Codex
+cp -R gerar-corda "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-Depois, invoque explicitamente:
+Para os apps do Claude (Cowork / claude.ai), empacote a pasta como zip
+`.skill` e adicione nas configurações de skills. Qualquer outro runner que
+leia arquivos e execute Python pode seguir o `gerar-corda/SKILL.md`
+diretamente. Instruções completas por runtime: [INSTALL.md](INSTALL.md).
 
-```text
-Use $gerar-corda para derivar e compilar um universo para esta decisão: [...]
-```
-
-A skill não tem invocação implícita para evitar conflito com skills de domínio.
-Outras LLMs podem consumir os artefatos gerados; a embalagem `SKILL.md` é
-específica do Codex.
+A skill evita invocação implícita para não conflitar com skills de domínio —
+e os universos compilados rodam em **qualquer** LLM via `BOOTSTRAP.md` +
+`STATE.json`, sem skill nenhuma instalada.
 
 ## Estrutura
 
@@ -117,13 +122,16 @@ docs/
 
 | Superfície | Evidência atual |
 | --- | --- |
-| Compilador | 32 testes unitários (24 v3 + 8 das extensões v4) |
+| Compilador | 70 testes unitários, incluindo testes metamórficos de elenco e sondas adversariais re-derivadas de cada achado de auditoria; gate de rebuild do bundle byte a byte |
 | Conformidade | 9 casos; 3 holdouts; 9/9 conformes |
-| Derivação de elenco | 4 casos sintéticos; 2 holdouts; 4/4 conformes |
-| Avaliação v4 (ACCEPTANCE v1.1) | oráculo determinístico; ablação 0/3 vs 3/3 (não é baseline v3 histórica — auditoria Sol S-03); `evaluated_inconclusive` |
-| Auditoria cross-model (Codex Sol, 2026-07-29) | **reprovada para promoção**: C2–C4 refutados, 6 achados novos; C5–C10 confirmados ([relatório](docs/audits/v4-audit-codex-sol.md)) |
+| Derivação de elenco | 4 casos sintéticos; 2 holdouts; 4/4 conformes (invariante à ordem: partição única sob permutações da entrada) |
+| Avaliação (ACCEPTANCE v1.2) | oráculo determinístico com relatório do scorer endereçado por conteúdo, obrigatório; medida contra o **predecessor executável pinado por hash**: 0/3 vs 3/3 nos casos autorais — presença de capacidade, não superioridade; `evaluated_inconclusive` até o holdout selado rodar |
+| Auditoria cross-model nº 1 (2026-07-29) | **reprovada para promoção**; achados S-01…S-09, todos reproduzidos e corrigidos ([relatório](docs/audits/v4-audit-codex-sol.md)) |
+| Parecer cross-model nº 2 (2026-08-19) | progresso material, utilidade demonstrada em um episódio de campo, **não promover**; achados N-01…N-04, todos reproduzidos e corrigidos |
+| Gate cross-model isolado (2026-08-20) | bateria nominal integralmente PASS, **o ataque livre reprovou a candidata** (N-05…N-08), todos reproduzidos e corrigidos — ver [docs/audits/README.md](docs/audits/README.md) |
+| Uso em campo | uma implantação real; uma rodada multi-agente real em que o gate do próprio universo rejeitou uma recomendação defeituosa e forçou o reparo; uma sessão externa em que a admissão de rodada recusou corretamente trabalho redundante |
 | Generalização | Não demonstrada |
-| Aceitação humana | Registrada mecanicamente (`record_acceptance.py`); promoção continua exigindo aceite explícito |
+| Aceitação humana | Registrada mecanicamente (`record_acceptance.py`); a promoção continua exigindo aceite humano explícito — pendente |
 
 Consulte [docs/VERIFICATION.md](docs/VERIFICATION.md) para o limite exato dos
 claims e [o relatório externo da v2.2.3](docs/audits/v2.2.3-external-audit.md)

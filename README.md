@@ -80,23 +80,28 @@ To operate the universe in an LLM, first load
 `build/runtime-demo/demo-BOOTSTRAP.md` and preserve
 `build/runtime-demo/demo-STATE.json` as a checkpoint.
 
-## Install as a Codex skill
+## Install as a skill (Claude Code, Claude apps, Codex, any runner)
+
+The `gerar-corda/` folder is a self-contained agent skill: `SKILL.md` is the
+operating contract, `references/` the method, `scripts/` plain Python with no
+vendor dependency. Install it wherever your agent runs:
 
 ```bash
-CODEX_SKILLS_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
-mkdir -p "$CODEX_SKILLS_DIR"
-cp -R gerar-corda "$CODEX_SKILLS_DIR/gerar-corda"
+# Claude Code — per project             # Claude Code — per user
+cp -R gerar-corda .claude/skills/       cp -R gerar-corda ~/.claude/skills/
+
+# Codex
+cp -R gerar-corda "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-Then, invoke it explicitly:
+For Claude apps (Cowork / claude.ai), package the folder as a `.skill` zip
+and add it through the app's skills settings. Any other runner that can read
+files and execute Python can follow `gerar-corda/SKILL.md` directly. Full
+per-runtime instructions: [INSTALL.md](INSTALL.md).
 
-```text
-Use $gerar-corda to derive and compile a universe for this decision: [...]
-```
-
-The skill has no implicit invocation, to avoid conflicting with domain
-skills. Other LLMs can consume the generated artifacts; the `SKILL.md`
-packaging is Codex-specific.
+The skill avoids implicit invocation so it never conflicts with domain
+skills — and the compiled universes it produces run in **any** LLM via
+`BOOTSTRAP.md` + `STATE.json`, with no skill installed at all.
 
 ## Structure
 
