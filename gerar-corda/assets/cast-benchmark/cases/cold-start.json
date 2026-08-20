@@ -1,0 +1,19 @@
+{
+  "case_id": "cold-start",
+  "note": "Caso sintético. Assunto novo, sem corpus. A maioria de quem instala a skill está aqui. Esperado: DERIVE_CAST em modo provisório, tudo rotulado hipótese, nada cortado por falta de evidência privada, e duas preocupações idênticas fundidas pelo observável.",
+  "subject": "Decidir se uma cooperativa de bairro deve operar a própria entrega de última milha",
+  "decision": "Operar frota própria, terceirizar ou não entregar",
+  "human_owner": "Assembleia da cooperativa",
+  "source": {"kind": "narrative", "description": "Conversa inicial; nenhum documento levantado ainda.", "observed_at": "2026-07-26"},
+  "subject_boundary": {"included": ["entrega de última milha no bairro"], "excluded": ["expansão para outras cidades", "linha de crédito ao consumidor"]},
+  "evidence_registry": [],
+  "concerns": [
+    {"id": "custo", "label": "Custo e caixa", "question": "A operação se paga?", "domain": "econômico", "evidence_scope": {}},
+    {"id": "operacao", "label": "Operação e rota", "question": "A cooperativa consegue entregar com regularidade?", "domain": "operacional", "evidence_scope": {}},
+    {"id": "trabalho", "label": "Vínculo e condições de trabalho", "question": "Quem dirige, sob qual vínculo e com qual proteção?", "domain": "trabalho", "evidence_scope": {}},
+    {"id": "financeiro", "label": "Análise financeira", "question": "A operação se paga?", "domain": "econômico", "evidence_scope": {}}
+  ],
+  "harm_domains": [
+    {"id": "dano-ao-cooperado", "what_is_harmed": "Renda e segurança de quem dirige", "owner": "Conselho fiscal", "power": "veto", "evidence": ["condicoes-trabalho"]}
+  ]
+}

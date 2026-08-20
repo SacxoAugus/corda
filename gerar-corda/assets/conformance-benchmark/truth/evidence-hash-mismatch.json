@@ -1,0 +1,6 @@
+{
+  "expected_schema_status": "fail",
+  "expected_preflight_result": "SCHEMA_ERROR",
+  "expected_contradictions": [],
+  "expected_requirement_status": {}
+}

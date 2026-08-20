@@ -1,0 +1,148 @@
+{
+  "schema_version": "corda-conformance-baseline/1.0",
+  "source": {
+    "version": "CORDA v2.2.1",
+    "audit_bundle_sha256": "cf9cd1e14182822023b03041644d8c9af75fb0ca695c6e4b27e9c9b0db9aecb4",
+    "compiler_sha256": "4fcbd7c7193f96991e21d5636106ca80e80d3930cdd20a092989b78e3a26d1e5",
+    "generated_by": "execução do build_universe.py e render_corda.py v2.2.1 sobre os mesmos nove inputs",
+    "note": "Os quatro casos originais permanecem como regressão; cinco classes ortogonais foram adicionadas e medidas com o código v2.2.1 preservado."
+  },
+  "case_results": [
+    {
+      "case_id": "dynamic-runtime",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "COMPILE_RUNTIME",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "present",
+          "mutable_state": "present",
+          "pending_decision": "present",
+          "temporal_dynamics": "present",
+          "conflict_or_uncertainty": null
+        },
+        "evidence_topology": "disjoint",
+        "round_policy": "conditional_rounds"
+      }
+    },
+    {
+      "case_id": "static-documented",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "NOT_APPLICABLE",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "missing",
+          "mutable_state": "irrelevant",
+          "pending_decision": "missing",
+          "temporal_dynamics": "irrelevant",
+          "conflict_or_uncertainty": null
+        }
+      }
+    },
+    {
+      "case_id": "faq-sem-prazo",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "COMPILE_RUNTIME",
+        "contradictions": [],
+        "requirement_status": {
+          "temporal_dynamics": "present",
+          "mutable_state": "missing",
+          "conflict_or_uncertainty": null
+        },
+        "evidence_topology": "identical",
+        "round_policy": "single_analytic_pass"
+      }
+    },
+    {
+      "case_id": "faq-contradictory",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "COMPILE_RUNTIME",
+        "contradictions": [],
+        "requirement_status": {
+          "temporal_dynamics": "present",
+          "mutable_state": "missing",
+          "conflict_or_uncertainty": null
+        },
+        "evidence_topology": "identical",
+        "round_policy": "single_analytic_pass"
+      }
+    },
+    {
+      "case_id": "missing-integrator",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "INSUFFICIENT_INPUT",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "present",
+          "mutable_state": "present",
+          "pending_decision": "present",
+          "temporal_dynamics": "present",
+          "conflict_or_uncertainty": null
+        }
+      }
+    },
+    {
+      "case_id": "duplicate-mode-id",
+      "observed": {
+        "schema_status": "fail",
+        "schema_error": "Duplicate mode id: a",
+        "preflight_result": "SCHEMA_ERROR",
+        "contradictions": [],
+        "requirement_status": {}
+      }
+    },
+    {
+      "case_id": "evidence-hash-mismatch",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "COMPILE_RUNTIME",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "present",
+          "mutable_state": "present",
+          "pending_decision": "present",
+          "temporal_dynamics": "present",
+          "conflict_or_uncertainty": null
+        },
+        "evidence_topology": "disjoint",
+        "round_policy": "conditional_rounds"
+      }
+    },
+    {
+      "case_id": "invalid-build-mode",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "INSUFFICIENT_INPUT",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "present",
+          "mutable_state": "present",
+          "pending_decision": "present",
+          "temporal_dynamics": "present",
+          "conflict_or_uncertainty": null
+        }
+      }
+    },
+    {
+      "case_id": "long-narrative-no-graph",
+      "observed": {
+        "schema_status": "pass",
+        "preflight_result": "COMPILE_RUNTIME",
+        "contradictions": [],
+        "requirement_status": {
+          "interacting_components": "present",
+          "mutable_state": "present",
+          "pending_decision": "present",
+          "temporal_dynamics": "present",
+          "conflict_or_uncertainty": null
+        },
+        "evidence_topology": "disjoint",
+        "round_policy": "conditional_rounds"
+      }
+    }
+  ]
+}

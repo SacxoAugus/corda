@@ -1,0 +1,11 @@
+{
+  "title": "Documento estático comprovado",
+  "source": {"kind": "document", "path": "static.md"},
+  "system_characteristics": {
+    "interacting_components": {"value": false, "source_ref": "static.md#scope"},
+    "mutable_state": {"value": false, "source_ref": "static.md#scope"},
+    "pending_decision": {"value": false, "source_ref": "static.md#scope"},
+    "temporal_dynamics": {"value": false, "source_ref": "static.md#scope"},
+    "conflict_or_uncertainty": {"value": false, "source_ref": "static.md#scope"}
+  }
+}

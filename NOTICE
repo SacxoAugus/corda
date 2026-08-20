@@ -1,0 +1,10 @@
+CORDA — compilador de universos auditáveis para LLMs
+Copyright 2026 Sacxo (sacxo.bom@gmail.com)
+
+Autor e mantenedor humano: Sacxo — criador do método e do compilador CORDA.
+Desenvolvido com assistência de agentes de IA sob a governança do próprio
+método (histórico de auditorias adversariais cross-model em docs/audits/).
+
+Este produto é licenciado sob a Apache License 2.0 (arquivo LICENSE).
+A licença NÃO concede direitos sobre o nome "CORDA" nem sobre marcas
+associadas (Apache-2.0 §6). Redistribuições devem preservar este NOTICE.

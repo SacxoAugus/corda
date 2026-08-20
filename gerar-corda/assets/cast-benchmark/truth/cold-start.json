@@ -1,0 +1,5 @@
+{"case_id":"cold-start","split":"holdout","verdict":"DERIVE_CAST","derivation_mode":"structure_derived_provisional",
+ "surviving_lenses":3,"adversaries":1,"integrator":1,
+ "cut_echo":[],"merged_lenses":["financeiro"],"separation_is_null":true,
+ "requirements_unsatisfied":[],
+ "why":"Sem corpus, nada pode ser cortado por falta de evidência privada. Separabilidade cai no observável declarado: custo e financeiro fazem a mesma pergunta no mesmo domínio. Separação não é observável e não deve receber número."}

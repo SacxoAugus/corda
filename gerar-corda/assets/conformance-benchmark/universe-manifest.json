@@ -1,0 +1,264 @@
+{
+  "title": "CORDA Compiler Conformance",
+  "subtitle": "Benchmark executável de aplicabilidade, esquema e invariantes — v2.2.3",
+  "source": {
+    "kind": "dataset",
+    "path": "cases/",
+    "description": "Nove manifestos rotulados; regressões conhecidas são separadas de holdouts ortogonais.",
+    "observed_at": "2026-07-26"
+  },
+  "build_mode": "auto",
+  "system_characteristics": {
+    "interacting_components": {"value": true, "source_ref": "benchmark#design"},
+    "mutable_state": {"value": true, "source_ref": "benchmark#design"},
+    "pending_decision": {"value": true, "source_ref": "benchmark#design"},
+    "temporal_dynamics": {"value": true, "source_ref": "benchmark#design"},
+    "conflict_or_uncertainty": {"value": true, "source_ref": "benchmark#design"}
+  },
+  "boundary": {
+    "bulk": "compilador CORDA e seus contratos de preflight",
+    "human_owner": "maintainer da skill",
+    "decision": "aceitar ou rejeitar uma versão candidata do compilador",
+    "time_horizon": "uma execução finita do benchmark",
+    "source_ref": "benchmark#boundary"
+  },
+  "runtime": {
+    "identity": "Avaliador de conformidade do compilador CORDA",
+    "mission": "Comparar preflight e invariantes observados contra ground truth versionado",
+    "execution_topology": "single_llm_sequential",
+    "memory": {
+      "mutable_state": "conformance-STATE.json",
+      "source_ref": "benchmark#state"
+    },
+    "loop": {
+      "objective": "executar todos os casos uma vez",
+      "budget": "nove casos e um scorer determinístico",
+      "minimum_evidence": "input, ground truth e resultado observado",
+      "exit_condition": "todos os casos pontuados",
+      "checkpoint": "EVALUATION.json e run-result.json"
+    }
+  },
+  "evidence_registry": [
+    {
+      "id": "benchmark-cases",
+      "kind": "dataset",
+      "content": "dynamic-runtime; static-documented; faq-sem-prazo; faq-contradictory; missing-integrator; duplicate-mode-id; evidence-hash-mismatch; invalid-build-mode; long-narrative-no-graph",
+      "claim_ids": ["claim-conformance-cases-v2"],
+      "source_ref": "cases/"
+    },
+    {
+      "id": "benchmark-truth",
+      "kind": "dataset",
+      "content": "expected applicability, contradictions, requirements and topology",
+      "claim_ids": ["claim-conformance-truth-v2"],
+      "source_ref": "truth/"
+    },
+    {
+      "id": "benchmark-runner",
+      "kind": "test_result",
+      "content": "run_conformance_benchmark.py",
+      "claim_ids": ["claim-conformance-runner-v2"],
+      "source_ref": "../../scripts/run_conformance_benchmark.py"
+    }
+  ],
+  "integrator": {
+    "id": "integrator",
+    "label": "Scorer de conformidade",
+    "role": "integrar resultados observados e ground truth",
+    "source_ref": "benchmark#integrator"
+  },
+  "modes": [
+    {
+      "id": "candidate",
+      "label": "Compilador candidato",
+      "role": "produzir preflight e invariantes",
+      "base_model": "deterministic-python",
+      "evidence_scope": {
+        "shared": ["benchmark-cases"],
+        "private": ["benchmark-runner"],
+        "tools": ["python"],
+        "prior": []
+      },
+      "context_fingerprint": "candidate-v2.2.3",
+      "prompt_family": "compiler",
+      "run_id": "candidate-run",
+      "source_ref": "benchmark#candidate"
+    },
+    {
+      "id": "oracle",
+      "label": "Oracle versionado",
+      "role": "fornecer resultados esperados",
+      "base_model": "static-ground-truth",
+      "evidence_scope": {
+        "shared": ["benchmark-cases"],
+        "private": ["benchmark-truth"],
+        "tools": [],
+        "prior": []
+      },
+      "context_fingerprint": "truth-v1",
+      "prompt_family": "oracle",
+      "run_id": "oracle-read",
+      "source_ref": "benchmark#oracle"
+    }
+  ],
+  "strings": [
+    {
+      "from": "candidate",
+      "to": "synthesis",
+      "label": "resultados observados",
+      "kind": "test",
+      "state": "active",
+      "lead_time_days": 0,
+      "source_ref": "benchmark#candidate-output"
+    },
+    {
+      "from": "oracle",
+      "to": "synthesis",
+      "label": "ground truth",
+      "kind": "evidence",
+      "state": "active",
+      "lead_time_days": 0,
+      "source_ref": "benchmark#truth-output"
+    }
+  ],
+  "synthesis": {
+    "label": "Matriz de conformidade",
+    "operator": "comparar convergências e conflitos por exact match",
+    "source_ref": "benchmark#synthesis"
+  },
+  "gate": {
+    "label": "Gate de promoção",
+    "tests": ["cobertura", "holdout", "false-open", "limiares"],
+    "executor": {
+      "id": "gate",
+      "base_model": "deterministic-python",
+      "evidence_scope": {
+        "shared": ["benchmark-cases", "benchmark-truth"],
+        "private": ["benchmark-runner"],
+        "tools": ["python"],
+        "prior": []
+      },
+      "context_fingerprint": "gate-conformance-v1",
+      "prompt_family": "threshold-scorer",
+      "run_id": "gate-run",
+      "blind_to": []
+    }
+  },
+  "evaluation_contract": {
+    "baseline": "baseline-v2.2.1-results.json",
+    "task": {
+      "id": "corda-compiler-conformance",
+      "description": "Classificar aplicabilidade e produzir invariantes corretos para manifestos rotulados.",
+      "expected_output_contract": [
+        "schema_status",
+        "preflight_result",
+        "contradictions",
+        "requirement_status",
+        "evidence_topology",
+        "round_policy"
+      ],
+      "oracle": {
+        "kind": "deterministic",
+        "source_ref": "truth/",
+        "scoring_procedure": "exact match por campo; agregação macro por caso"
+      }
+    },
+    "benchmark": [
+      {
+        "id": "dynamic-runtime",
+        "input_ref": "cases/dynamic-runtime.json",
+        "ground_truth_ref": "truth/dynamic-runtime.json",
+        "split": "development"
+      },
+      {
+        "id": "static-documented",
+        "input_ref": "cases/static-documented.json",
+        "ground_truth_ref": "truth/static-documented.json",
+        "split": "validation"
+      },
+      {
+        "id": "faq-sem-prazo",
+        "input_ref": "cases/faq-sem-prazo.json",
+        "ground_truth_ref": "truth/faq-sem-prazo.json",
+        "split": "validation",
+        "case_role": "regression"
+      },
+      {
+        "id": "faq-contradictory",
+        "input_ref": "cases/faq-contradictory.json",
+        "ground_truth_ref": "truth/faq-contradictory.json",
+        "split": "validation",
+        "case_role": "regression"
+      },
+      {
+        "id": "missing-integrator",
+        "input_ref": "cases/missing-integrator.json",
+        "ground_truth_ref": "truth/missing-integrator.json",
+        "split": "validation"
+      },
+      {
+        "id": "duplicate-mode-id",
+        "input_ref": "cases/duplicate-mode-id.json",
+        "ground_truth_ref": "truth/duplicate-mode-id.json",
+        "split": "holdout"
+      },
+      {
+        "id": "evidence-hash-mismatch",
+        "input_ref": "cases/evidence-hash-mismatch.json",
+        "ground_truth_ref": "truth/evidence-hash-mismatch.json",
+        "split": "development"
+      },
+      {
+        "id": "invalid-build-mode",
+        "input_ref": "cases/invalid-build-mode.json",
+        "ground_truth_ref": "truth/invalid-build-mode.json",
+        "split": "holdout"
+      },
+      {
+        "id": "long-narrative-no-graph",
+        "input_ref": "cases/long-narrative-no-graph.json",
+        "ground_truth_ref": "truth/long-narrative-no-graph.json",
+        "split": "holdout"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "applicability_accuracy",
+        "direction": "maximize",
+        "scorer": "run_conformance_benchmark.py@v2"
+      },
+      {
+        "name": "false_open_rate",
+        "direction": "minimize",
+        "scorer": "run_conformance_benchmark.py@v2"
+      },
+      {
+        "name": "invariant_accuracy",
+        "direction": "maximize",
+        "scorer": "run_conformance_benchmark.py@v2"
+      }
+    ],
+    "cost_budget": {
+      "cases": 9,
+      "wall_time_seconds": 30
+    },
+    "promotion_threshold": {
+      "applicability_accuracy": {
+        "min_improvement": 0.25,
+        "comparison": "absolute"
+      },
+      "false_open_rate": {
+        "min_improvement": 0.25,
+        "comparison": "absolute"
+      },
+      "invariant_accuracy": {
+        "min_improvement": 0.20,
+        "comparison": "absolute"
+      }
+    },
+    "status": "compiled_unevaluated",
+    "learning_policy": "promoção candidata exige benchmark completo e aceitação humana"
+  },
+  "assumptions": [],
+  "unmapped": []
+}

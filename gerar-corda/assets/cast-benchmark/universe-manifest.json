@@ -1,0 +1,22 @@
+{
+  "benchmark_id": "corda-cast-derivation-v1",
+  "task": {
+    "id": "derivar-elenco",
+    "description": "Dado um briefing de assunto com preocupações candidatas e domínios de dano, derivar o elenco: quantas lentes sobrevivem, quantos adversários, se há integrador, e qual veredito.",
+    "expected_output_contract": ["verdict", "derivation_mode", "cast_size", "derivation_log"],
+    "oracle": {"kind": "human", "source_ref": "truth/*.json",
+      "scoring_procedure": "comparação exata de verdict, derivation_mode, surviving_lenses, adversaries, integrator e requirements_unsatisfied"}
+  },
+  "metrics": [
+    {"name": "cast_size_accuracy", "direction": "maximize", "scorer": "exact-match-v1"},
+    {"name": "verdict_accuracy", "direction": "maximize", "scorer": "exact-match-v1"},
+    {"name": "false_cast_rate", "direction": "minimize", "scorer": "derivar universo onde a verdade diz recusar"}
+  ],
+  "cases": [
+    {"id": "dois-danos-ortogonais", "split": "development"},
+    {"id": "assunto-simples", "split": "validation"},
+    {"id": "elenco-inflado", "split": "holdout"},
+    {"id": "cold-start", "split": "holdout"}
+  ],
+  "limits": "Quatro casos sintéticos. Amostra pequena, sem pretensão de generalização. Os dois holdouts cobrem inflação de elenco e cold start — os dois modos de falha mais comuns."
+}

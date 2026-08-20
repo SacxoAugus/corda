@@ -1,0 +1,4 @@
+{"case_id":"assunto-simples","split":"validation","verdict":"SINGLE_LENS","derivation_mode":"evidence_derived",
+ "surviving_lenses":1,"adversaries":0,"integrator":0,
+ "cut_echo":["opiniao"],"requirements_unsatisfied":["adversary","subject_boundary"],
+ "why":"Uma lente separável. Recusar é o comportamento correto: universo de um modo não integra nem confronta."}

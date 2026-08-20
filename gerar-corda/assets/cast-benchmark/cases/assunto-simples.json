@@ -1,0 +1,18 @@
+{
+  "case_id": "assunto-simples",
+  "note": "Caso sintético. Uma preocupação separável e mais nada. Esperado: SINGLE_LENS — recusa de construir universo para o que pede resposta.",
+  "subject": "Escolher o formato de arquivo para exportar o relatório mensal",
+  "decision": "PDF, XLSX ou CSV",
+  "human_owner": "Responsável pelo relatório",
+  "source": {"kind": "narrative", "description": "Pergunta pontual.", "observed_at": "2026-07-26"},
+  "evidence_registry": [
+    {"id": "requisitos-consumidor", "kind": "document", "source_ref": "requisitos de quem recebe o relatório"}
+  ],
+  "concerns": [
+    {"id": "consumo", "label": "Uso a jusante", "question": "Quem recebe precisa reprocessar os números?", "domain": "técnico",
+     "evidence_scope": {"shared": [], "private": ["requisitos-consumidor"], "tools": []}},
+    {"id": "opiniao", "label": "Preferência da equipe", "question": "Do que a equipe gosta mais?", "domain": "técnico",
+     "evidence_scope": {"shared": ["requisitos-consumidor"], "private": [], "tools": []}}
+  ],
+  "harm_domains": []
+}

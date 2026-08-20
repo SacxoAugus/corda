@@ -1,0 +1,84 @@
+{
+  "title": "Caso dinâmico",
+  "source": {
+    "kind": "narrative",
+    "description": "Dois componentes decidem com estado e prazo."
+  },
+  "system_characteristics": {
+    "interacting_components": {"value": true, "source_ref": "case#characteristics"},
+    "mutable_state": {"value": true, "source_ref": "case#characteristics"},
+    "pending_decision": {"value": true, "source_ref": "case#characteristics"},
+    "temporal_dynamics": {"value": true, "source_ref": "case#characteristics"},
+    "conflict_or_uncertainty": {"value": true, "source_ref": "case#characteristics"}
+  },
+  "boundary": {
+    "bulk": "caso de conformidade",
+    "human_owner": "owner",
+    "decision": "autorizar próximo passo",
+    "source_ref": "case#boundary"
+  },
+  "runtime": {
+    "memory": {
+      "mutable_state": "STATE.json",
+      "source_ref": "case#state"
+    }
+  },
+  "evidence_registry": [
+    {"id": "source-a", "kind": "document", "content": "A", "source_ref": "case#a"},
+    {"id": "source-b", "kind": "document", "content": "B", "source_ref": "case#b"}
+  ],
+  "integrator": {
+    "id": "integrator",
+    "label": "Integração",
+    "role": "integrar",
+    "source_ref": "case#integrator"
+  },
+  "modes": [
+    {
+      "id": "a",
+      "label": "A",
+      "role": "analisar A",
+      "base_model": "model-a",
+      "evidence_scope": {"shared": [], "private": ["source-a"], "tools": [], "prior": []},
+      "context_fingerprint": "context-a",
+      "prompt_family": "a",
+      "run_id": "run-a",
+      "source_ref": "case#a"
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "role": "analisar B",
+      "base_model": "model-b",
+      "evidence_scope": {"shared": [], "private": ["source-b"], "tools": [], "prior": []},
+      "context_fingerprint": "context-b",
+      "prompt_family": "b",
+      "run_id": "run-b",
+      "source_ref": "case#b"
+    }
+  ],
+  "strings": [
+    {
+      "from": "a",
+      "to": "synthesis",
+      "label": "emissão A",
+      "state": "active",
+      "lead_time_days": 1,
+      "source_ref": "case#edge-a"
+    },
+    {
+      "from": "b",
+      "to": "synthesis",
+      "label": "emissão B",
+      "state": "active",
+      "lead_time_days": 1,
+      "source_ref": "case#edge-b"
+    }
+  ],
+  "synthesis": {
+    "label": "Síntese",
+    "operator": "conflitos",
+    "source_ref": "case#synthesis"
+  },
+  "gate": {"label": "Gate", "tests": ["evidência"]}
+}

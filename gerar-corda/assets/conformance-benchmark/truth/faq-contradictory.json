@@ -1,0 +1,12 @@
+{
+  "expected_schema_status": "pass",
+  "expected_preflight_result": "PROJECTION_ONLY",
+  "expected_contradictions": ["temporal_dynamics"],
+  "expected_requirement_status": {
+    "temporal_dynamics": "contradictory",
+    "mutable_state": "missing",
+    "conflict_or_uncertainty": "missing"
+  },
+  "expected_evidence_topology": "identical",
+  "expected_round_policy": "single_analytic_pass"
+}

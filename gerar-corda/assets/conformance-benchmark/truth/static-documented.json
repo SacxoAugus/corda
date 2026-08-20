@@ -1,0 +1,12 @@
+{
+  "expected_schema_status": "pass",
+  "expected_preflight_result": "NOT_APPLICABLE",
+  "expected_contradictions": [],
+  "expected_requirement_status": {
+    "interacting_components": "irrelevant",
+    "mutable_state": "irrelevant",
+    "pending_decision": "irrelevant",
+    "temporal_dynamics": "irrelevant",
+    "conflict_or_uncertainty": "irrelevant"
+  }
+}

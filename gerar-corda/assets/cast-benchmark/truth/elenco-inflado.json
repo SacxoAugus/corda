@@ -1,0 +1,22 @@
+{
+ "case_id": "elenco-inflado",
+ "split": "holdout",
+ "verdict": "DERIVE_CAST",
+ "derivation_mode": "evidence_derived",
+ "surviving_lenses": 4,
+ "adversaries": 1,
+ "integrator": 1,
+ "cut_echo": [
+  "estrategia",
+  "inovacao",
+  "sintese"
+ ],
+ "merged_lenses": [
+  "adocao",
+  "uso"
+ ],
+ "requirements_unsatisfied": [],
+ "why": "Nove lentes propostas, quatro subespaços de evidência. Três ecos sem evidência própria e duas lentes que observam a mesma telemetria.",
+ "truth_version": "1.1",
+ "migration_note": "Migracao 1.0->1.1 (ciclo 05, correcao S-01 da auditoria Codex Sol, autorizada pelo owner em 2026-07-29): a fusao virou fechamento invariante a ordem e o representante do componente passou a ser derivado do conteudo (maior escopo original; empate por menor id) em vez da posicao no JSON. A particao e os contadores nao mudaram; o sobrevivente do componente {uso, adocao, voz-cliente} passou de 'uso' (primeiro na ordem) para 'voz-cliente' (escopo mais completo)."
+}

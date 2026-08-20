@@ -1,0 +1,5 @@
+{"case_id":"dois-danos-ortogonais","split":"development","verdict":"DERIVE_CAST","derivation_mode":"evidence_derived",
+ "surviving_lenses":4,"adversaries":2,"integrator":1,
+ "cut_echo":["visao-geral","qualidade"],"merged_harm_domains":["dano-reputacional"],
+ "requirements_unsatisfied":[],
+ "why":"Assinatura de produto derivado de obra licenciada para usuário vulnerável: dois danos com donos e evidências disjuntos exigem dois vetos. O terceiro domínio tem o mesmo dono e evidência sobreposta — não é ortogonal."}

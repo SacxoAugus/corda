@@ -1,0 +1,100 @@
+{
+  "benchmark_id": "corda-cast-derivation-v1",
+  "case_count": 4,
+  "passed": 4,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "case": "dois-danos-ortogonais",
+      "split": "development",
+      "pass": true,
+      "diffs": {},
+      "actual": {
+        "verdict": "DERIVE_CAST",
+        "derivation_mode": "evidence_derived",
+        "surviving_lenses": 4,
+        "adversaries": 2,
+        "integrator": 1,
+        "requirements_unsatisfied": [],
+        "cut_echo": [
+          "qualidade",
+          "visao-geral"
+        ],
+        "merged_lenses": [],
+        "merged_harm_domains": [
+          "dano-reputacional"
+        ],
+        "separation_is_null": false
+      }
+    },
+    {
+      "case": "assunto-simples",
+      "split": "validation",
+      "pass": true,
+      "diffs": {},
+      "actual": {
+        "verdict": "SINGLE_LENS",
+        "derivation_mode": "evidence_derived",
+        "surviving_lenses": 1,
+        "adversaries": 0,
+        "integrator": 0,
+        "requirements_unsatisfied": [
+          "adversary",
+          "subject_boundary"
+        ],
+        "cut_echo": [
+          "opiniao"
+        ],
+        "merged_lenses": [],
+        "merged_harm_domains": [],
+        "separation_is_null": false
+      }
+    },
+    {
+      "case": "elenco-inflado",
+      "split": "holdout",
+      "pass": true,
+      "diffs": {},
+      "actual": {
+        "verdict": "DERIVE_CAST",
+        "derivation_mode": "evidence_derived",
+        "surviving_lenses": 4,
+        "adversaries": 1,
+        "integrator": 1,
+        "requirements_unsatisfied": [],
+        "cut_echo": [
+          "estrategia",
+          "inovacao",
+          "sintese"
+        ],
+        "merged_lenses": [
+          "adocao",
+          "voz-cliente"
+        ],
+        "merged_harm_domains": [],
+        "separation_is_null": false
+      }
+    },
+    {
+      "case": "cold-start",
+      "split": "holdout",
+      "pass": true,
+      "diffs": {},
+      "actual": {
+        "verdict": "DERIVE_CAST",
+        "derivation_mode": "structure_derived_provisional",
+        "surviving_lenses": 3,
+        "adversaries": 1,
+        "integrator": 1,
+        "requirements_unsatisfied": [],
+        "cut_echo": [],
+        "merged_lenses": [
+          "financeiro"
+        ],
+        "merged_harm_domains": [],
+        "separation_is_null": true
+      }
+    }
+  ],
+  "limits": "Quatro casos sintéticos. Amostra pequena, sem pretensão de generalização. Os dois holdouts cobrem inflação de elenco e cold start — os dois modos de falha mais comuns."
+}

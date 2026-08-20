@@ -1,0 +1,39 @@
+{
+  "case_id": "elenco-inflado",
+  "note": "Caso sintético. Nove lentes propostas para um assunto que sustenta quatro. Esperado: três ecos cortados, duas fusões, quatro sobreviventes — o modo de falha mais comum em desenho de agente.",
+  "subject": "Priorizar o roadmap de um produto B2B para o próximo trimestre",
+  "decision": "Quais três iniciativas entram no trimestre",
+  "human_owner": "Diretoria de produto",
+  "source": {"kind": "narrative", "description": "Briefing sintético.", "observed_at": "2026-07-26"},
+  "subject_boundary": {"included": ["roadmap do próximo trimestre"], "excluded": ["reestruturação de time", "precificação"]},
+  "evidence_registry": [
+    {"id": "telemetria", "kind": "dataset", "source_ref": "telemetria de uso"},
+    {"id": "pipeline-vendas", "kind": "dataset", "source_ref": "pipeline comercial"},
+    {"id": "tickets-suporte", "kind": "dataset", "source_ref": "tickets de suporte"},
+    {"id": "divida-tecnica", "kind": "document", "source_ref": "inventário de dívida técnica"},
+    {"id": "entrevistas-cliente", "kind": "observation", "source_ref": "entrevistas com clientes"}
+  ],
+  "concerns": [
+    {"id": "uso", "label": "Uso real do produto", "question": "O que os clientes de fato usam?", "domain": "produto",
+     "evidence_scope": {"shared": [], "private": ["telemetria"], "tools": []}},
+    {"id": "adocao", "label": "Adoção", "question": "O que os clientes de fato usam?", "domain": "produto",
+     "evidence_scope": {"shared": [], "private": ["telemetria"], "tools": []}},
+    {"id": "comercial", "label": "Pressão comercial", "question": "O que trava negócio no pipeline?", "domain": "comercial",
+     "evidence_scope": {"shared": [], "private": ["pipeline-vendas"], "tools": []}},
+    {"id": "suporte", "label": "Dor operacional", "question": "O que gera custo de suporte?", "domain": "operacional",
+     "evidence_scope": {"shared": [], "private": ["tickets-suporte"], "tools": []}},
+    {"id": "engenharia", "label": "Sustentação técnica", "question": "O que quebra se não mexermos?", "domain": "técnico",
+     "evidence_scope": {"shared": [], "private": ["divida-tecnica"], "tools": []}},
+    {"id": "voz-cliente", "label": "Voz do cliente", "question": "O que o cliente pede?", "domain": "produto",
+     "evidence_scope": {"shared": [], "private": ["entrevistas-cliente", "telemetria"], "tools": []}},
+    {"id": "estrategia", "label": "Visão estratégica", "question": "Para onde vamos?", "domain": "estratégia",
+     "evidence_scope": {"shared": ["telemetria", "pipeline-vendas"], "private": [], "tools": []}},
+    {"id": "inovacao", "label": "Inovação", "question": "O que seria ousado?", "domain": "estratégia",
+     "evidence_scope": {"shared": [], "private": [], "tools": []}},
+    {"id": "sintese", "label": "Olhar integrado", "question": "Como isso se junta?", "domain": "estratégia",
+     "evidence_scope": {"shared": ["telemetria"], "private": [], "tools": []}}
+  ],
+  "harm_domains": [
+    {"id": "dano-ao-cliente-atual", "what_is_harmed": "Base instalada que depende do que existe", "owner": "Sucesso do cliente", "power": "parecer", "evidence": ["tickets-suporte", "telemetria"]}
+  ]
+}

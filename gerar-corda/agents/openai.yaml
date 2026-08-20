@@ -1,0 +1,6 @@
+interface:
+  display_name: "CORDA — Universo LLM Auditável"
+  short_description: "Compila e testa universos LLM com evidência"
+  default_prompt: "Use $gerar-corda para sondar, compilar e testar este sistema como um universo LLM auditável."
+policy:
+  allow_implicit_invocation: false

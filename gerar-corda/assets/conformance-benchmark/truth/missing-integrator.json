@@ -1,0 +1,12 @@
+{
+  "expected_schema_status": "pass",
+  "expected_preflight_result": "INSUFFICIENT_INPUT",
+  "expected_contradictions": [],
+  "expected_requirement_status": {
+    "interacting_components": "present",
+    "mutable_state": "present",
+    "pending_decision": "present",
+    "temporal_dynamics": "present",
+    "conflict_or_uncertainty": "present"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "case_id": "dois-danos-ortogonais",
+  "note": "Caso sintético. Produto derivado de obra licenciada e dirigido a usuário vulnerável: dois danos com donos e evidências disjuntos. Assinatura estrutural esperada — 2 adversários com veto e fronteira de assunto declarada.",
+  "subject": "Agente de tutoria para crianças de 7 a 9 anos derivado de um método pedagógico licenciado",
+  "decision": "Aprovar, ajustar ou recusar o piloto com quinze famílias",
+  "human_owner": "Coordenação do produto (aceita, rejeita ou altera)",
+  "source": {
+    "kind": "narrative",
+    "description": "Briefing sintético do benchmark de derivação de elenco.",
+    "observed_at": "2026-07-26"
+  },
+  "subject_boundary": {
+    "included": [
+      "leitura compartilhada",
+      "formulação de perguntas pela criança",
+      "vocabulário do método licenciado"
+    ],
+    "excluded": [
+      "reforço escolar e nota",
+      "aconselhamento emocional",
+      "conversa livre irrestrita"
+    ]
+  },
+  "evidence_registry": [
+    {"id": "contrato-licenca", "kind": "document", "source_ref": "contrato de licença do método"},
+    {"id": "manual-metodo", "kind": "document", "source_ref": "manual pedagógico licenciado"},
+    {"id": "literatura-desenvolvimento", "kind": "document", "source_ref": "literatura de desenvolvimento infantil 7-9"},
+    {"id": "regulacao-infancia", "kind": "document", "source_ref": "regulação de dados e publicidade infantil"},
+    {"id": "transcricoes-piloto", "kind": "observation", "source_ref": "transcrições de sessão do piloto interno"},
+    {"id": "custos-infra", "kind": "dataset", "source_ref": "planilha de custo por sessão"},
+    {"id": "entrevistas-familias", "kind": "observation", "source_ref": "entrevistas com famílias"},
+    {"id": "spec-tecnica", "kind": "document", "source_ref": "especificação técnica e guardrails"}
+  ],
+  "concerns": [
+    {
+      "id": "experiencia",
+      "label": "Experiência e formato da sessão",
+      "role": "Desenha a sessão finita: abertura, cena, pergunta central, encerramento",
+      "question": "A sessão sustenta atenção sem prender a criança?",
+      "domain": "produto",
+      "evidence_scope": {
+        "shared": ["manual-metodo"],
+        "private": ["transcricoes-piloto", "entrevistas-familias"],
+        "tools": []
+      }
+    },
+    {
+      "id": "voz",
+      "label": "Voz e narrativa",
+      "role": "Mantém o tom do método: pensa junto, não explica de cima",
+      "question": "A voz é fiel ao método sem virar professor?",
+      "domain": "narrativa",
+      "evidence_scope": {
+        "shared": ["manual-metodo"],
+        "private": ["contrato-licenca"],
+        "tools": []
+      }
+    },
+    {
+      "id": "engenharia",
+      "label": "Engenharia e guardrails",
+      "role": "Especificação, privacidade por arquitetura, fallback",
+      "question": "Os limites são arquiteturais ou só instruções?",
+      "domain": "técnico",
+      "evidence_scope": {
+        "shared": [],
+        "private": ["spec-tecnica"],
+        "tools": ["teste de guardrail", "auditoria de retenção"]
+      }
+    },
+    {
+      "id": "economia",
+      "label": "Economia da operação",
+      "role": "Custo por sessão, sustentabilidade do piloto",
+      "question": "O custo por sessão fecha em quinze famílias?",
+      "domain": "econômico",
+      "evidence_scope": {
+        "shared": [],
+        "private": ["custos-infra"],
+        "tools": []
+      }
+    },
+    {
+      "id": "visao-geral",
+      "label": "Visão geral do produto",
+      "role": "Olha o conjunto e amarra as pontas",
+      "question": "O produto faz sentido como um todo?",
+      "domain": "produto",
+      "evidence_scope": {
+        "shared": ["manual-metodo", "spec-tecnica"],
+        "private": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "qualidade",
+      "label": "Qualidade geral",
+      "role": "Zela pelo padrão de qualidade",
+      "question": "Está bom o suficiente?",
+      "domain": "produto",
+      "evidence_scope": {
+        "shared": ["manual-metodo"],
+        "private": [],
+        "tools": []
+      }
+    }
+  ],
+  "harm_domains": [
+    {
+      "id": "dano-a-obra",
+      "what_is_harmed": "Integridade do método licenciado e a relação com o licenciador",
+      "owner": "Licenciador",
+      "power": "veto",
+      "evidence": ["contrato-licenca", "manual-metodo"]
+    },
+    {
+      "id": "dano-a-crianca",
+      "what_is_harmed": "Segurança e desenvolvimento da criança de 7 a 9 anos",
+      "owner": "Assessoria clínica independente",
+      "power": "veto",
+      "evidence": ["literatura-desenvolvimento", "regulacao-infancia"]
+    },
+    {
+      "id": "dano-reputacional",
+      "what_is_harmed": "Percepção pública do método",
+      "owner": "Licenciador",
+      "power": "parecer",
+      "evidence": ["contrato-licenca"]
+    }
+  ]
+}

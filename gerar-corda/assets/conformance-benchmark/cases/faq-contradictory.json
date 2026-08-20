@@ -1,0 +1,65 @@
+{
+  "title": "FAQ com alegação temporal contraditória",
+  "source": {"kind": "document", "path": "faq.md"},
+  "system_characteristics": {
+    "temporal_dynamics": {
+      "value": true,
+      "source_ref": "faq.md#sem-prazo"
+    }
+  },
+  "boundary": {
+    "bulk": "redação de FAQ",
+    "human_owner": "editor",
+    "decision": "aprovar texto",
+    "time_horizon": "sem prazo",
+    "source_ref": "faq.md#brief"
+  },
+  "integrator": {
+    "id": "integrator",
+    "label": "Editor",
+    "role": "integrar",
+    "source_ref": "faq.md#editor"
+  },
+  "evidence_registry": [
+    {"id": "faq", "kind": "document", "content": "FAQ", "source_ref": "faq.md"}
+  ],
+  "modes": [
+    {
+      "id": "writer",
+      "label": "Redator",
+      "role": "redigir",
+      "base_model": "model-a",
+      "evidence_scope": {"shared": ["faq"], "private": [], "tools": [], "prior": []},
+      "context_fingerprint": "faq-a",
+      "prompt_family": "writer",
+      "run_id": "writer-1",
+      "source_ref": "faq.md#writer"
+    },
+    {
+      "id": "reviewer",
+      "label": "Revisor",
+      "role": "revisar",
+      "base_model": "model-b",
+      "evidence_scope": {"shared": ["faq"], "private": [], "tools": [], "prior": []},
+      "context_fingerprint": "faq-b",
+      "prompt_family": "reviewer",
+      "run_id": "reviewer-1",
+      "source_ref": "faq.md#reviewer"
+    }
+  ],
+  "strings": [
+    {
+      "from": "writer",
+      "to": "synthesis",
+      "label": "rascunho",
+      "state": "closed",
+      "source_ref": "faq.md#flow"
+    }
+  ],
+  "synthesis": {
+    "label": "Texto final",
+    "operator": "revisão editorial",
+    "source_ref": "faq.md#output"
+  },
+  "gate": {"label": "Revisão", "tests": ["ortografia"]}
+}

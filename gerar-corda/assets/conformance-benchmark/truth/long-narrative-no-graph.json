@@ -1,0 +1,14 @@
+{
+  "expected_schema_status": "pass",
+  "expected_preflight_result": "COMPILE_RUNTIME",
+  "expected_contradictions": [],
+  "expected_requirement_status": {
+    "interacting_components": "present",
+    "mutable_state": "present",
+    "pending_decision": "present",
+    "temporal_dynamics": "present",
+    "conflict_or_uncertainty": "present"
+  },
+  "expected_evidence_topology": "disjoint",
+  "expected_round_policy": "conditional_rounds"
+}
