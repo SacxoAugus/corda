@@ -5,13 +5,21 @@
 Compilador de universos auditáveis para LLMs, com derivação de elenco por
 topologia de evidência.
 
-> **Estado:** candidato baseado na CORDA v3 com extensões v4 aditivas (projeção
-> explorável, aceite computável, prazos absolutos, avaliação com oráculo
-> determinístico), aceitas pelo owner como *adjusted* em 2026-07-28 e pinadas
-> na tag `v4-ciclo-04-adjusted`. O núcleo do compilador foi auditado
-> externamente na v2.2.3; as extensões v3/v4 têm verificação determinística e
-> revisão por agentes (mesmo modelo-base — declarado), mas **não** foram
-> auditadas externamente nem validadas em distribuição desconhecida.
+> **Versão:** `1.0.0-rc.1` — primeiro lançamento público; nada foi publicado
+> antes dele. Os nomes de linhagem interna (v3/v4) aparecem apenas na trilha
+> de auditoria preservada — ver [VERSIONING.md](VERSIONING.md).
+>
+> **Estado:** release candidate. A ferramenta é extensão opcional e aditiva do
+> predecessor privado, medida contra ele pinado por hash: 0/3 vs 3/3 nos casos
+> autorais de aceitação — presença de capacidade, **não superioridade**.
+> Sobreviveu a duas auditorias cross-model e a um gate adversarial isolado
+> cuja seção de ataque livre reprovou uma candidata que a bateria nominal
+> completa aprovava (ver [docs/audits/README.md](docs/audits/README.md));
+> cada achado foi reproduzido, corrigido e re-testado (70 testes, gate de
+> rebuild byte a byte). O `-rc` só cai com o aceite humano explícito, ainda
+> pendente — junto com o holdout selado e a revisão visual humana. Os claims
+> são estreitos por desenho: sem superioridade, sem generalização, sem
+> auditoria humana externa das extensões.
 
 ## O que faz
 

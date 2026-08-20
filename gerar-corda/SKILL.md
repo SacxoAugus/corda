@@ -217,7 +217,10 @@ Cast derivation produces `<basename>-CAST.json`, `<basename>-CAST.md` and
 The JSON manifest remains CORDA's editable source. Prefer fixing the manifest
 and regenerating over editing the outputs by hand.
 
-## v4 extensions (additive; accepted by the owner on 2026-07-28)
+## Extensions (additive; accepted by the owner on 2026-07-28)
+
+Introduced in the fourth internal iteration — see [VERSIONING.md](../VERSIONING.md)
+for how internal lineage names (v3/v4) map to public releases (1.x).
 
 - **Explorable projection**: optional `projection` section in the manifest
   (only `panels` and `layout {algorithm, seed, dimensions, iterations}`), with

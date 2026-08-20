@@ -5,14 +5,23 @@
 Auditable universe compiler for LLMs, with cast derivation via evidence
 topology.
 
-> **Status:** candidate based on CORDA v3 with additive v4 extensions
-> (explorable projection, computable acceptance, absolute deadlines,
-> evaluation with a deterministic oracle), accepted by the owner as
-> *adjusted* on 2026-07-28 and pinned at tag `v4-ciclo-04-adjusted`. The
-> compiler core was externally audited at v2.2.3; the v3/v4 extensions have
-> deterministic verification and agent review (same base model — declared),
-> but have **not** been externally audited nor validated on an unknown
-> distribution.
+> **Version:** `1.0.0-rc.1` — first public release; nothing was published
+> before it. Internal lineage names (v3/v4) appear only in the preserved
+> audit trail — see [VERSIONING.md](VERSIONING.md).
+>
+> **Status:** release candidate. The tool is an optional, additive extension
+> of its private predecessor (explorable projection, computable human
+> acceptance, absolute deadlines, deterministic-oracle evaluation), measured
+> against that predecessor pinned by hash: 0/3 vs 3/3 on the authored
+> acceptance cases — capability presence, **not superiority**. It survived
+> two cross-model audits and one isolated cross-model adversarial gate whose
+> free attack failed a candidate the full nominal battery had approved (see
+> [docs/audits/README.md](docs/audits/README.md)); every finding was
+> reproduced, fixed, and re-tested (70 unit tests, byte-level rebuild gate).
+> The `-rc` drops only upon explicit human acceptance, still pending —
+> together with a sealed holdout and human visual review. Claims are narrow
+> by design: no superiority, no generalization, no external human audit of
+> the extensions.
 
 ## What it does
 
@@ -110,13 +119,16 @@ docs/
 
 | Surface | Current evidence |
 | --- | --- |
-| Compiler | 32 unit tests (24 v3 + 8 from the v4 extensions) |
+| Compiler | 70 unit tests, including metamorphic cast tests and re-derived adversarial probes from every audit finding; byte-level bundle rebuild gate |
 | Conformance | 9 cases; 3 holdouts; 9/9 conformant |
-| Cast derivation | 4 synthetic cases; 2 holdouts; 4/4 conformant |
-| v4 evaluation (ACCEPTANCE v1.1) | deterministic oracle; ablation 0/3 vs 3/3 (not the historical v3 baseline — Sol audit S-03); `evaluated_inconclusive` |
-| Cross-model audit (Codex Sol, 2026-07-29) | **rejected for promotion**: C2–C4 refuted, 6 new findings; C5–C10 confirmed ([report](docs/audits/v4-audit-codex-sol.md)) |
+| Cast derivation | 4 synthetic cases; 2 holdouts; 4/4 conformant (order-invariant: single partition across input permutations) |
+| Evaluation (ACCEPTANCE v1.2) | deterministic oracle with mandatory content-addressed scorer report; measured against the **hash-pinned executable predecessor**: 0/3 vs 3/3 on the authored cases — capability presence, not superiority; `evaluated_inconclusive` until the sealed holdout runs |
+| Cross-model audit #1 (2026-07-29) | **rejected for promotion**; findings S-01…S-09, all reproduced and fixed ([report](docs/audits/v4-audit-codex-sol.md)) |
+| Cross-model review #2 (2026-08-19) | material progress, utility demonstrated in one field episode, **do not promote**; findings N-01…N-04, all reproduced and fixed |
+| Isolated cross-model gate (2026-08-20) | nominal battery fully PASS, **free attack failed the candidate** (N-05…N-08), all reproduced and fixed — see [docs/audits/README.md](docs/audits/README.md) |
+| Field use | one real deployment; one real multi-agent round where the universe's gate rejected a defective recommendation and forced repair; one external session where round admission correctly refused redundant work |
 | Generalization | Not demonstrated |
-| Human acceptance | Recorded mechanically (`record_acceptance.py`); promotion still requires explicit acceptance |
+| Human acceptance | Recorded mechanically (`record_acceptance.py`); promotion still requires explicit human acceptance — pending |
 
 See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the exact boundary of
 the claims, and [the v2.2.3 external audit report](docs/audits/v2.2.3-external-audit.md)

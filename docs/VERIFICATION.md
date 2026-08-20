@@ -1,70 +1,82 @@
-# Estado de verificação
+# Verification status
 
-## Núcleo do compilador
+Restricted language only — each surface carries the strongest claim its
+evidence supports, and nothing stronger:
+`deterministically verified` · `agent-reviewed` (same base model: invalidates,
+never corroborates) · `agent-reviewed, cross-model` · `human accepted` ·
+`externally audited` · `not demonstrated`.
 
-A linha v2.2.3 foi auditada externamente antes desta extração. O escopo
-verificado incluiu:
+## Compiler core (inherited line)
 
-- validação de atestados na fronteira de decisão;
-- integridade de hashes inline;
-- aplicabilidade e abortos;
-- isolamento do overlay;
-- benchmark de conformidade com nove casos;
-- 24 testes unitários.
+The early internal line (audit-trail name "v2.2.3") was externally audited
+before extraction: attestation validation at the decision boundary, inline
+hash integrity, applicability and aborts, overlay isolation, the nine-case
+conformance benchmark. That audit does not demonstrate generalization on an
+unknown distribution. Inherited evidence: `externally audited` (scope above,
+nothing more).
 
-A auditoria não demonstra generalização em distribuição desconhecida.
+## Cast derivation
 
-## Derivação de elenco v3
+Order-invariant (transitive closure with content-derived representatives;
+metamorphic tests: permutation, idempotence, duplication, transitivity). Four
+synthetic cases, two holdouts, 4/4 conformant. Authorship of code and dataset
+is shared — the benchmark proves sample conformance, not truth, sufficiency
+or absence of common bias. Status: `deterministically verified` on the
+published sample; the derivation rule is an **operational heuristic** with
+declared limits (see SKILL), and every derived cast is a candidate.
 
-Estado atual:
+## Extensions (introduced in the internal iteration named "v4")
 
-- quatro casos sintéticos;
-- dois holdouts;
-- quatro casos conformes;
-- autoria compartilhada entre código e dataset;
-- sem auditoria externa.
+- Compiler with extensions (projection_data, invariants P1–P6, STATE 1.5,
+  absolute deadlines, compiler stamp, MAST auto-required for multi-agent
+  topology): `deterministically verified` — 70 unit tests, conformance 9/9,
+  cast 4/4, byte-level bundle rebuild gate, and re-derived adversarial probes
+  from every audit finding (S-01…S-09, N-01…N-08) asserting each one no
+  longer reproduces.
+- Architecture decisions (ADR-001, multi_agent topology, ACCEPTANCE v1.2 with
+  deterministic oracle, mandatory content-addressed scorer report, exact
+  contract-case matching, transactional evaluation↔state writes):
+  `human accepted` as *adjusted* (recorded via `record_acceptance.py`;
+  the acceptance record lives in the private development journal).
+- Evaluation against the predecessor: the internal "v3" iteration is pinned
+  by hash as an executable baseline and run by the same procedure: 0/3 vs
+  3/3 on the three authored acceptance cases. This is capability presence
+  under an authored contract — **not superiority**, and not the nominal
+  test-suite proof, which remains queued.
+- MAST 2025 v2 over real traces: honest `fail` records preserved (state-loss
+  and verifier-independence findings, with mitigations declared). A passing
+  MAST was never claimed.
 
-Consequentemente, a derivação é candidata e experimental. Ela mede separação de
-evidência declarada; não mede suficiência, verdade ou ausência de vieses comuns.
+## Adversarial trail (cross-model)
 
-## Extensões v4 (ciclos 01–04, 2026-07-28)
+- Audit #1 (2026-07-29): promotion **rejected**; three internal claims
+  refuted; findings S-01…S-09 — all later reproduced by the maintainer's
+  integrator and fixed. `agent-reviewed, cross-model`.
+- Review #2 (2026-08-19): material progress; "utility demonstrated in this
+  episode" for one real field round; **do not promote**; findings N-01…N-04
+  — reproduced and fixed.
+- Isolated adversarial gate (2026-08-20): executed by the cross-model
+  reviewer from a clean `git archive` of the frozen candidate. The nominal
+  battery passed integrally; the **free attack failed the candidate**
+  (N-05…N-08) — reproduced and fixed. This is the project's central
+  empirical result: a completed checklist is not an adversary.
+- No extension surface is `externally audited` by a human/organization. The
+  external-audit claim remains restricted to the inherited core.
 
-Estado por superfície, na linguagem restrita abaixo:
+## Field use
 
-- Compilador com extensões (projection_data, P1–P6, STATE 1.5, due_at
-  absoluto): `deterministically verified` (32 testes; conformidade 9/9; cast
-  4/4; rebuild byte-idêntico reproduzido por gate isolado) e `agent-reviewed`
-  (lentes, gates adversariais e adversário global — todos com o mesmo
-  modelo-base do produtor; invalidam, não corroboram).
-- Decisões de arquitetura (ADR-001, topologia multi_agent, ACCEPTANCE v1.1):
-  `human accepted` como *adjusted* (registro em
-  `runs/v4-development/build/corda-v4-STATE.json#decision`).
-- MAST 2025 v2 sobre traces reais: `fail` registrado com honestidade
-  (FM-1.4: rebuilds apagavam registros de revisão; mitigação procedural +
-  pinagem por tag).
-- Auditoria cross-model (Codex Sol, OpenAI gpt-5.6-sol, 2026-07-29;
-  `docs/audits/v4-audit-codex-sol.md`): **REPROVADA para promoção v3→v4** no
-  objeto auditado. C5–C10 confirmados nos limites declarados; **C2–C4
-  refutados** (enforcement de schema da projeção não é estrito; registro de
-  aceite admite data malformada; `algorithm` é rótulo e o build versionado não
-  fechava sobre o HEAD); C1 não verificável sem baseline v3 executável pinada.
-  Achados novos S-01/S-02/S-04/S-05/S-08/S-09 — destaque: derivação de elenco
-  dependente da ordem de entrada (S-01) e elegibilidade fabricável por métricas
-  autodeclaradas (S-02). Classe da revisão: `agent-reviewed` por família de
-  modelo distinta — primeira do run; não constitui aceite humano.
-- Nenhuma superfície v4 é `externally audited` por humano/organização. O claim
-  externo permanece restrito ao núcleo herdado da v2.2.3.
+One real deployment of a compiled universe in a third-party project
+(subject redacted in the public cut): a genuine multi-agent round in which
+the universe's own gate rejected a defective recommendation (governance
+bypass + personal-data processing without legal basis), forced a repair, and
+only then passed it; and one external session in which round admission
+correctly **refused** redundant work and escalated two real defects instead
+of fabricating novelty. Status: utility demonstrated in these episodes —
+attribution narrow, generalization `not demonstrated`.
 
-## Linguagem de revisão
+## Still open before promotion
 
-Usar somente:
-
-- `self-checked`;
-- `agent-reviewed`;
-- `deterministically verified`;
-- `externally audited`;
-- `human accepted`.
-
-Não chamar o repositório inteiro de auditado. O claim externo aplica-se ao
-núcleo herdado da v2.2.3, não automaticamente à derivação v3 ou a mudanças
-futuras.
+Cross-model re-gate of the latest repair; sealed holdout generated by the
+owner outside any agent context and executed by the runner; nominal
+predecessor test-suite proof; human visual review; **explicit human
+acceptance** — which no agent can give.
